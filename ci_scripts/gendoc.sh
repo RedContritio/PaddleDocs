@@ -10,6 +10,8 @@ OUTPUTFORMAT=${OUTPUTFORMAT:=html}
 DOCROOT=${FLUIDDOCDIR}/docs/
 APIROOT=${DOCROOT}/api/
 
+APIMAPPING_ROOT=${DOCROOT}/guides/model_convert/convert_from_pytorch
+
 export DOCROOT
 
 
@@ -26,6 +28,9 @@ python ./gen_doc.py
 if [ -f ./copy_codes_from_en_doc.py ] && [ -f ./api_info_all.json ] ; then
   python ./copy_codes_from_en_doc.py --api-info ./api_info_all.json ${DOCROOT}
 fi
+
+cd ${APIMAPPING_ROOT}
+python ./apply_reference_from_api_difference.py
 
 if [ -f ${FLUIDDOCDIR}/ci_scripts/hooks/pre-doc-compile.sh ] ; then
   ${FLUIDDOCDIR}/ci_scripts/hooks/pre-doc-compile.sh
